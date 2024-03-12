@@ -3,7 +3,7 @@ import sys
 import os
 import re
 from collections import OrderedDict
-from datetime import datetime
+from datetime import datetime, UTC
 
 # Home directory of user
 home = os.getenv("ZDOTDIR", os.getenv("HOME"))
@@ -18,7 +18,7 @@ HISTFILE = home + "/" + HISTFILENAME
 def get_dir_and_command(line):
     parts = line.split(";")
     ts = int(parts[0].split(":")[1].strip())
-    return (datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'), parts[1], ";".join(parts[2:]))
+    return (datetime.fromtimestamp(ts, UTC).strftime('%Y-%m-%d %H:%M:%S'), parts[1], ";".join(parts[2:]))
 
 def remove_duplicates_front(commands):
     """Remove duplicate entries from the front in commands.
